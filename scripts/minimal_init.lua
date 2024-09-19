@@ -1,5 +1,4 @@
 vim.opt.runtimepath:append "."
-vim.cmd.runtime { "plugin/plenary.vim", bang = true }
 vim.cmd.runtime { "plugin/nvim-treesitter.lua", bang = true }
 
 vim.filetype.add {
@@ -23,3 +22,10 @@ require("nvim-treesitter.configs").setup {
   indent = { enable = true },
   highlight = { enable = true },
 }
+
+for name, type in vim.fs.dir(_G.arg[1], { depth = 3 }) do
+  if type == "file" then
+    -- print(vim.fs.normalize(vim.fs.joinpath("tests", name)))
+    dofile(vim.fs.normalize(vim.fs.joinpath("tests", name)))
+  end
+end

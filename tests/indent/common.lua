@@ -2,8 +2,6 @@ local M = {}
 
 local assert = require "luassert"
 local say = require "say"
-local scan_dir = require("plenary.scandir").scan_dir
-local Path = require "plenary.path"
 
 M.XFAIL = "xfail"
 
@@ -163,7 +161,7 @@ Runner.__index = Runner
 function Runner:new(it, base_dir, buf_opts)
   local runner = {}
   runner.it = it
-  runner.base_dir = Path:new(base_dir)
+  runner.base_dir = base_dir
   runner.buf_opts = buf_opts
   return setmetatable(runner, self)
 end
@@ -172,17 +170,17 @@ function Runner:whole_file(dirs, opts)
   opts = opts or {}
   local expected_failures = opts.expected_failures or {}
   expected_failures = vim.tbl_map(function(f)
-    return Path:new(f):make_relative(self.base_dir.filename)
+    return vim.fs.normalize(self.base_dir)
   end, expected_failures)
   dirs = type(dirs) == "table" and dirs or { dirs }
   dirs = vim.tbl_map(function(dir)
-    dir = self.base_dir / Path:new(dir)
-    assert.is.same(1, vim.fn.isdirectory(dir.filename))
-    return dir.filename
+    dir = vim.fs.joinpath(self.base_dir, dir)
+    assert.is.same(1, vim.fn.isdirectory(dir))
+    return dir
   end, dirs)
-  local files = require("nvim-treesitter.compat").flatten(vim.tbl_map(scan_dir, dirs))
+  local files = require("nvim-treesitter.compat").flatten(vim.tbl_map(vim.fs.dir, dirs))
   for _, file in ipairs(files) do
-    local relpath = Path:new(file):make_relative(self.base_dir.filename)
+    local relpath = vim.fs.normalize(self.base_dir)
     self.it(relpath, function()
       M.indent_whole_file(file, self.buf_opts, vim.tbl_contains(expected_failures, relpath))
     end)
@@ -192,8 +190,8 @@ end
 function Runner:new_line(file, spec, title, xfail)
   title = title and title or tostring(spec.on_line)
   self.it(string.format("%s[%s]", file, title), function()
-    local path = self.base_dir / file
-    M.indent_new_line(path.filename, spec, self.buf_opts, xfail)
+    local path = vim.fs.joinpath(self.base_dir, file)
+    M.indent_new_line(path, spec, self.buf_opts, xfail)
   end)
 end
 
