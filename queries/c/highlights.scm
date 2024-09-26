@@ -6,7 +6,6 @@
   (preproc_arg) @variable)
 
 [
-  "default"
   "goto"
   "asm"
   "__asm__"
@@ -43,6 +42,7 @@
   "else"
   "case"
   "switch"
+  "default"
 ] @keyword.conditional
 
 [

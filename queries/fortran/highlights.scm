@@ -54,7 +54,6 @@
   "default"
   "dimension"
   "endassociate"
-  "endselect"
   "enumerator"
   "equivalence"
   "extends"
@@ -88,8 +87,6 @@
   "interface"
   "endinterface"
 ] @keyword.type
-
-(default) @keyword
 
 ; Types
 (type_name) @type
@@ -211,6 +208,10 @@
   "if"
   "then"
   "where"
+  "selectcase"
+  "endselect"
+  (default)
+  "case"
 ] @keyword.conditional
 
 ; Repeats

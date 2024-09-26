@@ -99,11 +99,9 @@
   "break"
   "const"
   "continue"
-  "default"
   "defer"
   "goto"
   "range"
-  "select"
   "var"
   "fallthrough"
 ] @keyword
@@ -132,6 +130,8 @@
   "case"
   "switch"
   "if"
+  "default"
+  "select"
 ] @keyword.conditional
 
 ; Builtin types
