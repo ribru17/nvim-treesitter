@@ -199,6 +199,7 @@
   "protected"
   "public"
   "static"
+  "abstract"
 ] @keyword.modifier
 
 [
@@ -212,6 +213,7 @@
   "while"
   "do"
   "break"
+  "continue"
 ] @keyword.repeat
 
 "return" @keyword.return
@@ -226,9 +228,7 @@
 "new" @keyword.operator
 
 [
-  "abstract"
   (all_rows_clause)
-  "continue"
   "default"
   "extends"
   "final"
@@ -237,9 +237,7 @@
   "implements"
   "instanceof"
   "on"
-  "private"
   "protected"
-  "public"
   "set"
   "static"
   "testMethod"
